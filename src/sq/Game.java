@@ -1,8 +1,9 @@
-import javax.swing.text.html.Option;
+package sq;
+
 import java.util.List;
 import java.util.Optional;
 
-public class Game implements GameFinishedStrategy{
+public class Game implements GameFinishedStrategy {
     private Integer numberOfPlayers;
 
     @Override

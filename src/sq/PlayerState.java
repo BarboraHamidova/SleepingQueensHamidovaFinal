@@ -1,3 +1,5 @@
+package sq;
+
 import java.util.Map;
 import java.util.Optional;
 

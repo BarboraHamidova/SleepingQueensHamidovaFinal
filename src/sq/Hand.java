@@ -1,3 +1,5 @@
+package sq;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -6,7 +8,7 @@ import java.util.Optional;
 public class Hand {
 
     /*
-    * Picks correct selected cards of Hand, throws them into discard pile and redraws*/
+    * Picks correct selected cards, throws them into discard pile and redraws*/
 
     private List<Card> cardsOfHand;
 

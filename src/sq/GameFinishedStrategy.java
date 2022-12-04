@@ -1,3 +1,5 @@
+package sq;
+
 import java.util.Optional;
 
 public interface GameFinishedStrategy {

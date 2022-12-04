@@ -1,3 +1,5 @@
+package sq;
+
 public class SleepingQueenPosition {
     private Integer index;
 

@@ -1,3 +1,5 @@
+package sq;
+
 public class GameObservable {
     public void add(GameObserver observer){
 

@@ -1,3 +1,7 @@
+package sq;
+
+import sq.CardType;
+
 public class EvaluateAttack {
     private CardType defenseCardType;
 

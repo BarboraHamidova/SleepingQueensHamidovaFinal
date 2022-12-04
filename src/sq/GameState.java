@@ -1,3 +1,8 @@
+package sq;
+
+import sq.AwokenQueenPosition;
+import sq.Card;
+
 import java.util.*;
 
 public class GameState {

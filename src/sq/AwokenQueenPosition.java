@@ -1,4 +1,6 @@
-public class HandPosition {
+package sq;
+
+public class AwokenQueenPosition {
     private Integer cardIndex;
     private Integer playerIndex;
 
