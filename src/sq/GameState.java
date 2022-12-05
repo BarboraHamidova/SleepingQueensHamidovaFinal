@@ -15,7 +15,7 @@ public class GameState {
 
     /* Probably everything should be final and constructor should initialize everything */
 
-    public GameState(int numberOfPlayers){
+    public GameState(int numberOfPlayers, int onTurn, Set<SleepingQueenPosition> sleepingQueens, Map<HandPosition, Optional<Card>> cards, Map<AwokenQueenPosition, Queen> awokenQueens, List<Card> cardsDiscardedLastTurn){
         this.numberOfPlayers = numberOfPlayers;
 
     }

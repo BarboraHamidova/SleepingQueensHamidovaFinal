@@ -41,8 +41,8 @@ public class Hand {
         return positionCardMap;
     }
 
-    public void returnPickedCards(){
-        /*Dunno what this should do*/
+    public List<Card> returnPickedCards(){
+        return new ArrayList<>(pickedCards.values());
     }
 
     public HandPosition hasCardOfType(CardType type){

@@ -19,30 +19,66 @@ public class Position {
         sleepingQueenPosition = Optional.of(position);
     }
 
+    public Position(HandPosition hand, SleepingQueenPosition queen){
+        this.handPosition = Optional.of(hand);
+        this.sleepingQueenPosition = Optional.of(queen);
+    }
 
-    Integer getCardIndex (){
+    public Position(HandPosition hand, AwokenQueenPosition queen){
+        this.handPosition = Optional.of(hand);
+        this.awokenQueenPosition = Optional.of(queen);
+    }
+
+    public HandPosition getHandPosition(){
+        return this.handPosition.orElse(null);
+    }
+
+
+    public Integer getHandCardIndex (){
         if(handPosition.isPresent()){
             return handPosition.get().getCardIndex();
         }
-        if(awokenQueenPosition.isPresent()){
-            return awokenQueenPosition.get().getCardIndex();
-        }
+        return -1;
+    }
+
+    public Integer getSleepingQueenCardIndex (){
         if(sleepingQueenPosition.isPresent()){
             return sleepingQueenPosition.get().getCardIndex();
         }
         return -1;
     }
 
-    Integer getPlayerIndex(){
-        if(handPosition.isPresent()){
-            return handPosition.get().getPlayerIndex();
-        }
+    public Integer getAwokenCardIndex (){
         if(awokenQueenPosition.isPresent()){
-            return awokenQueenPosition.get().getPlayerIndex();
-        }
-        if(sleepingQueenPosition.isPresent()){
-            return null;
+            return awokenQueenPosition.get().getCardIndex();
         }
         return -1;
     }
+
+    public Integer getHandPlayerIndex(){
+        if(handPosition.isPresent()){
+            return handPosition.get().getPlayerIndex();
+        }
+        return -1;
+    }
+
+    public Integer getAwokenQueenPlayerIndex(){
+        if(awokenQueenPosition.isPresent()){
+            return awokenQueenPosition.get().getPlayerIndex();
+        }
+        return -1;
+    }
+
+    public boolean isHand(){
+        return handPosition.isPresent();
+    }
+
+    public boolean isAwokenQueen(){
+        return awokenQueenPosition.isPresent();
+    }
+
+    public boolean isSleepingQueen(){
+        return sleepingQueenPosition.isPresent();
+    }
+
 }
