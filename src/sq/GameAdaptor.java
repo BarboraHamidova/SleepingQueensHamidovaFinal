@@ -85,6 +85,7 @@ public class GameAdaptor implements GamePlayerInterface {
         if(gameState.isPresent()){
             GameState gS = gameState.get();
             result += convertGameStateToString(gS);
+            gameObservable.notifyAll(gS);
 
         }
         return result;

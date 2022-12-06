@@ -18,7 +18,7 @@ public class DrawingAndTrashPile {
         Integer length = toShuffle.size();
         LinkedList<Card> newPile = new LinkedList<>();
         for(int i = 0; i < length; i++){
-            newPile.add(toShuffle.remove(random.nextInt(length-1-i)));
+            newPile.add(toShuffle.remove(random.nextInt(length-i)));
         }
         return newPile;
     }

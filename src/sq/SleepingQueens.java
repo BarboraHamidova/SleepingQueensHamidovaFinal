@@ -15,6 +15,7 @@ public class SleepingQueens {
     }
 
     public SleepingQueens(){
+        queens = new HashMap<>();
         for (int i = 0; i < 12; i++){
             Queen queen = new Queen();
             Position position = new Position(new SleepingQueenPosition(i));
