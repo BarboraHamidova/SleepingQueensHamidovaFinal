@@ -1,18 +1,32 @@
 package sq;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class QueenCollection {
-    private Set<Queen> set = new HashSet<>();
+    private Map<Position, Queen> allQueens;
 
-    public void addQueen(Queen queen){
-        set.add(queen);
+    private SleepingQueens sleepingQueens;
+    private AwokenQueens awokenQueens;
+
+    public QueenCollection(SleepingQueens sleepingQueens, AwokenQueens awokenQueens){
+        allQueens = new HashMap<>(sleepingQueens.getQueens());
     }
 
-    public Optional<Queen> removeQueen(Queen queen){
-        /*Sounds simple no idea how to use optional*/
-        return Optional.empty();
+    public void addQueen(Queen queen, Position position){
+        if(position.isSleepingQueen()){
+            sleepingQueens.addQueen(position, queen);
+        }
+        if(position.isAwokenQueen()){
+            awokenQueens.addQueen(position, queen);
+        }
+        allQueens.put(position, queen);
+    }
+
+    public Optional<Queen> removeQueen(Position queenPosition){
+        return Optional.of(allQueens.remove(queenPosition));
+    }
+
+    public Map<Position, Queen> getQueens(){
+        return allQueens;
     }
 }

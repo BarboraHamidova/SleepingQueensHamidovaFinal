@@ -1,7 +1,5 @@
 package sq;
 
-import sq.Card;
-
 import java.util.List;
 
 public class EvaluateNumberedCards {
