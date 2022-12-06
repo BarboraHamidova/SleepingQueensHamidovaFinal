@@ -10,6 +10,7 @@ public class Game implements GameFinishedStrategy {
     private DrawingAndTrashPile pile;
     private QueenCollection queenCollection;
     private SleepingQueens sleepingQueens;
+    private GameState gameState;
 
     public Game(Integer numberOfPlayers, DrawingAndTrashPile pile){
         //mozno by mohol dostat list kariet a tak vytvorit pile
@@ -29,15 +30,47 @@ public class Game implements GameFinishedStrategy {
 
     @Override
     public Optional<Integer> isFinished(){
-        /*No idea what to do*/
+        if(sleepingQueens.getQueens().isEmpty()){
+            int maxPoints = 0;
+            Optional<Integer> result = Optional.empty();
+            for(Player player : players){
+                int points = 0;
+                for(Optional<Card> card : player.getPlayerState().cards.values()){
+                    if(card.isPresent()){
+                        points += card.get().value;
+                    }
+                }
+                if(points > maxPoints){
+                    maxPoints = points;
+                    result = Optional.of(player.getPlayerIdx());
+                }
+            }
+            return result;
+        }
+
+        for(Player player : players){
+            int numberOfQueens = player.getPlayerState().awokenQueens.size();
+            int numberOfPoints = 0;
+            for(Optional<Card> card : player.getPlayerState().cards.values()){
+                if(card.isPresent()){
+                    numberOfPoints += card.get().value;
+                }
+            }
+            if(numberOfPlayers >= 2 && numberOfPlayers <= 3 && (numberOfQueens >= 5 || numberOfPoints >= 50)){
+                return Optional.of(player.getPlayerIdx());
+            }
+            else if(numberOfPlayers >= 4 && numberOfPlayers <= 5 && (numberOfQueens >= 4 || numberOfPoints >= 40)){
+                return Optional.of(player.getPlayerIdx());
+            }
+        }
         return Optional.empty();
+
     }
 
     public Optional<GameState> play(Integer playerIdx, List<Position> cards){
         players.get(playerIdx).play(cards);
-        /*Has to compose GameState*/
-        /*prejde cez vsetkych playerov a updatne gamestate*/
-        return Optional.empty();
+        this.gameState = new GameState(numberOfPlayers, playerIdx, queenCollection, players, pile);
+        return Optional.of(gameState);
     }
 
 }

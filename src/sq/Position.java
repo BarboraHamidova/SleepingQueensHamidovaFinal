@@ -37,6 +37,10 @@ public class Position {
         return this.sleepingQueenPosition.orElse(null);
     }
 
+    public AwokenQueenPosition getAwokenQueenPosition(){
+        return this.awokenQueenPosition.orElse(null);
+    }
+
 
     public Integer getHandCardIndex (){
         if(handPosition.isPresent()){

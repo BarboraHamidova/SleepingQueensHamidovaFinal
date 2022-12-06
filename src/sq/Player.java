@@ -103,4 +103,8 @@ public class Player {
     public PlayerState getPlayerState(){
         return this.playerState;
     }
+
+    public Integer getPlayerIdx() {
+        return playerIdx;
+    }
 }

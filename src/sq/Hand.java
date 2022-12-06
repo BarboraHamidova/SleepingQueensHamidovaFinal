@@ -58,4 +58,5 @@ public class Hand {
     public List<Card> getCards(){
         return new ArrayList<>(positionCardMap.values());
     }
+
 }
