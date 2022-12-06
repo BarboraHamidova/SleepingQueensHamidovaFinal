@@ -21,4 +21,5 @@ public class AwokenQueens {
     public Map<Position, Queen> getQueens(){
         return queens;
     }
+
 }

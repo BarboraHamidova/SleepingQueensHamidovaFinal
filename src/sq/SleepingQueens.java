@@ -1,12 +1,18 @@
 package sq;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class SleepingQueens {
-    Map<Position, Queen> queens;
+    private Map<Position, Queen> queens;
+    private final TreeSet<Integer> indices = initializeSet();
+
+    private TreeSet<Integer> initializeSet(){
+        TreeSet<Integer> set = new TreeSet<>();
+        for(int i = 0; i < 12; i++){
+            set.add(i);
+        }
+        return set;
+    }
 
     public SleepingQueens(){
         for (int i = 0; i < 12; i++){
@@ -16,8 +22,14 @@ public class SleepingQueens {
         }
     }
 
-    public void addQueen(Position position, Queen queen){
-        queens.put(position, queen);
+    public Position addQueen(Queen queen){
+        TreeSet<Integer> availableIndices = new TreeSet<>(indices);
+        for(Position p : queens.keySet()){
+            availableIndices.remove(p.getSleepingQueenPosition().getCardIndex());
+        }
+        Position newPosition = new Position(new SleepingQueenPosition(availableIndices.first()));
+        queens.put(newPosition, queen);
+        return newPosition;
     }
 
     public Queen removeQueen(Position position){

@@ -8,12 +8,15 @@ public class Player {
     private Hand hand;
     private Game game;
     private AwokenQueens awokenQueens;
+    private QueenCollection queenCollection;
 
     /*Picks selected cards and determines what class is responsible for evaluating the play
     * Consumes cards played from sq.Hand on success
     * Somehow needs to keep playerState*/
 
-    public Player(Integer playerIdx, DrawingAndTrashPile pile, Game game){
+    public Player(Integer playerIdx, DrawingAndTrashPile pile, Game game, QueenCollection queenCollection){
+        this.awokenQueens = new AwokenQueens();
+        this.queenCollection = queenCollection;
         this.playerIdx = playerIdx;
         this.hand = new Hand(pile, this.playerIdx);
         this.game = game;
@@ -31,11 +34,7 @@ public class Player {
         return this.hand;
     }
 
-    /*public void updateStateCards(Map<HandPosition, Card> map){
-        for(HandPosition h : map.keySet()){
-            playerState.cards.put(h.getCardIndex(), Optional.of(map.get(h)));
-        }
-    }*/
+
 
     public void play(List<Position> cards){
         List<HandPosition> discard = new LinkedList<>();
@@ -48,6 +47,11 @@ public class Player {
                     if(c.tyoe == CardType.King){
                         discard.add(p.getHandPosition());
                     }
+                    Queen queen = queenCollection.removeQueen(p).orElse(null);
+                    Position newPosition = new Position(p.getHandPosition(), new AwokenQueenPosition(playerState.awokenQueens.size(), playerIdx));
+                    this.awokenQueens.addQueen(newPosition, queen);
+                    queenCollection.addQueen(queen, newPosition);
+                    playerState.awokenQueens.put(newPosition.getAwokenCardIndex(), queen);
                 }
             }
             if(p.isHand() && p.isAwokenQueen()){
@@ -59,7 +63,21 @@ public class Player {
                         discard.add(p.getHandPosition());
                     }
                     else {
-                        //Somehow needs to get queen
+                        if(type == CardType.Knight) {
+                            game.getPlayer(p.getAwokenQueenPlayerIndex()).getPlayerState().awokenQueens.remove(p.getAwokenCardIndex());
+                            Queen queen = queenCollection.removeQueen(p).orElse(null);
+                            Position newPosition = new Position(p.getHandPosition(), new AwokenQueenPosition(playerState.awokenQueens.size(), playerIdx));
+                            this.awokenQueens.addQueen(newPosition, queen);
+                            queenCollection.addQueen(queen, newPosition);
+                            this.playerState.awokenQueens.put(newPosition.getAwokenCardIndex(), queen);
+                        }
+                        if(type == CardType.SleepingPotion){
+                            game.getPlayer(p.getAwokenQueenPlayerIndex()).getPlayerState().awokenQueens.remove(p.getAwokenCardIndex());
+                            Queen queen = queenCollection.removeQueen(p).orElse(null);
+                            Position newPosition = new Position(new SleepingQueenPosition(0));
+                            queenCollection.addQueen(queen, newPosition);
+
+                        }
                     }
                 }
             }

@@ -8,14 +8,18 @@ public class Game implements GameFinishedStrategy {
     private Integer numberOfPlayers;
     private List<Player> players;
     private DrawingAndTrashPile pile;
+    private QueenCollection queenCollection;
+    private SleepingQueens sleepingQueens;
 
     public Game(Integer numberOfPlayers, DrawingAndTrashPile pile){
         //mozno by mohol dostat list kariet a tak vytvorit pile
+        this.sleepingQueens = new SleepingQueens();
+        this.queenCollection = new QueenCollection(sleepingQueens);
         this.numberOfPlayers = numberOfPlayers;
         this.pile = pile;
         players = new ArrayList<>();
         for(int i = 0; i < numberOfPlayers; i++){
-            players.add(new Player(i, pile, this));
+            players.add(new Player(i, pile, this, queenCollection));
         }
     }
 
