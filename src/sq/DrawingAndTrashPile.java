@@ -21,6 +21,10 @@ public class DrawingAndTrashPile {
     public DrawingAndTrashPile(Integer numberOfCards, Integer cardsPerPlayer){
         /*Treba doimplementovat, podla toho, co bude treba, podla hratelnosti*/
         this.cardsPerPlayer = cardsPerPlayer;
+        this.drawPile = new LinkedList<>();
+        for (int i = 0; i < numberOfCards; i++){
+            drawPile.add(new Card(CardType.Number, 1));
+        }
     }
 
     public List<Card> initialDraw(){

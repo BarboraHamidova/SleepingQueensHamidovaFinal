@@ -15,8 +15,12 @@ public class Game implements GameFinishedStrategy {
         this.pile = pile;
         players = new ArrayList<>();
         for(int i = 0; i < numberOfPlayers; i++){
-            players.add(new Player(i, pile));
+            players.add(new Player(i, pile, this));
         }
+    }
+
+    public Player getPlayer(Integer playerIdx){
+        return players.get(playerIdx);
     }
 
     @Override
@@ -28,6 +32,7 @@ public class Game implements GameFinishedStrategy {
     public Optional<GameState> play(Integer playerIdx, List<Position> cards){
         players.get(playerIdx).play(cards);
         /*Has to compose GameState*/
+        /*prejde cez vsetkych playerov a updatne gamestate*/
         return Optional.empty();
     }
 
