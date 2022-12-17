@@ -4,9 +4,6 @@ import java.util.*;
 
 public class Hand {
 
-    /*
-    * Picks correct selected cards, throws them into discard pile and redraws*/
-
     private DrawingAndTrashPile drawingAndTrashPile;
     private Map<HandPosition, Card> positionCardMap;
     private Integer playerIdx;
@@ -42,7 +39,7 @@ public class Hand {
     }
 
     public List<Card> returnPickedCards(){
-        return new ArrayList<>(pickedCards.values());
+        return new LinkedList(this.pickedCards.values());
     }
 
     public HandPosition hasCardOfType(CardType type){

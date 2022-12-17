@@ -41,7 +41,6 @@ public class EvaluateAttack {
             return  false;
         }
         else {
-            /*Potrebujem ho zbavit queeny to sure ako*/
             return true;
         }
     }

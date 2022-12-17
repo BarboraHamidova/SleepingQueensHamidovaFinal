@@ -7,7 +7,7 @@ public class EvaluateNumberedCards {
     private Integer findMax(List<Card> cards){
         Integer max = cards.get(0).value;
         for(Card c : cards){
-            if(max < c.value){
+            if(max <= c.value){
                 max = c.value;
             }
         }

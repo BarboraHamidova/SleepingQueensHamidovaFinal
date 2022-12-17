@@ -14,6 +14,7 @@ public class GameAdaptor implements GamePlayerInterface {
         String[] strings = cards.split(" ");
         HandPosition lastHandPosition = null;
         for(int i = 0; i < strings.length; i++){
+            System.out.println(strings[i].charAt(0));
             if(strings[i].charAt(0) == 'h' && lastHandPosition == null){
                 lastHandPosition = new HandPosition(Character.getNumericValue(strings[i].charAt(1)) - 1, playerIdx);
             }
@@ -22,7 +23,8 @@ public class GameAdaptor implements GamePlayerInterface {
                 lastHandPosition = new HandPosition(Character.getNumericValue(strings[i].charAt(1))-1, playerIdx);
             }
             else if(strings[i].charAt(0) == 'a'){
-                positions.add(new Position(lastHandPosition, new AwokenQueenPosition(Character.getNumericValue(strings[i].charAt(2)) - 1, Integer.valueOf(strings[i].charAt(1)) - 1)));
+                System.out.println();
+                positions.add(new Position(lastHandPosition, new AwokenQueenPosition(Character.getNumericValue(strings[i].charAt(2)) - 1, Character.getNumericValue(strings[i].charAt(1)) - 1)));
                 lastHandPosition = null;
             }
             else if(strings[i].charAt(0) == 's'){
@@ -57,11 +59,12 @@ public class GameAdaptor implements GamePlayerInterface {
         string += "\n";
         string += "Vyhodene karty toto kolo:";
         for(Card card : gameState.cardsDiscardedLastTurn){
-            if (card.tyoe == CardType.Number){
-                string += " " + card.value;
-            }
-            else {
-                string += " " + card.tyoe;
+            if(card != null) {
+                if (card.tyoe == CardType.Number) {
+                    string += " " + card.value;
+                } else {
+                    string += " " + card.tyoe;
+                }
             }
         }
         return string;
@@ -77,6 +80,9 @@ public class GameAdaptor implements GamePlayerInterface {
         /*Converts to given format, calls correct implemented function and converts to interface format*/
         Integer playerIdxInt = Integer.valueOf(player) - 1;
         List<Position> cardsPositions = convertStringToPositions(cards, playerIdxInt);
+        for(Position p : cardsPositions){
+            System.out.println(p);
+        }
         Optional<GameState> gameState = game.play(playerIdxInt ,cardsPositions);
         String result = "";
         if(game.isFinished().isPresent()){

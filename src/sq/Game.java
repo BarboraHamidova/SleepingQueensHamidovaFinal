@@ -12,6 +12,27 @@ public class Game implements GameFinishedStrategy {
     private SleepingQueens sleepingQueens;
     private GameState gameState;
 
+    public Game(Integer numberOfPlayers){
+        //mozno by mohol dostat list kariet a tak vytvorit pile
+        this.sleepingQueens = new SleepingQueens();
+        this.queenCollection = new QueenCollection(sleepingQueens);
+        this.numberOfPlayers = numberOfPlayers;
+        this.pile = new DrawingAndTrashPile(5, 0);
+        players = new ArrayList<>();
+    }
+
+    public boolean addPlayer(Player player){
+        if(this.players.size() < numberOfPlayers) {
+            this.players.add(player);
+            return true;
+        }
+        return false;
+    }
+
+    public QueenCollection getQueenCollection(){
+        return this.queenCollection;
+    }
+
     public Game(Integer numberOfPlayers, DrawingAndTrashPile pile){
         //mozno by mohol dostat list kariet a tak vytvorit pile
         this.sleepingQueens = new SleepingQueens();
@@ -68,6 +89,7 @@ public class Game implements GameFinishedStrategy {
     }
 
     public Optional<GameState> play(Integer playerIdx, List<Position> cards){
+        this.pile.newTurn();
         players.get(playerIdx).play(cards);
         this.gameState = new GameState(numberOfPlayers, playerIdx, queenCollection, players, pile);
         return Optional.of(gameState);

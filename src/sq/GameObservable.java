@@ -17,7 +17,7 @@ public class GameObservable{
         string += "\n";
         string += "Karty:";
         for(HandPosition p : gameState.cards.keySet()){
-            string += " " + p.getPlayerIndex() + "" + p.getCardIndex();
+            string += " " + p.getPlayerIndex() + "" + p.getCardIndex() + gameState.cards.get(p).get().tyoe + "" + gameState.cards.get(p).get().value;
         }
         string+="\n";
         string += "Bdele kralovne:";

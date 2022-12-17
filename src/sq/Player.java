@@ -41,20 +41,19 @@ public class Player {
         Map<HandPosition, Card> numberedCardsAndPosition = new HashMap<>();
         for(Position p : cards){
             if(p.isHand() && p.isSleepingQueen()){
-                /*Vyhodim krala z ruky, o kralovnu sa ma nieco ine postarat*/
                 if(p.getHandPlayerIndex() == playerIdx && playerState.cards.get(p.getHandCardIndex()).isPresent()){
                     Card c = playerState.cards.get(p.getHandCardIndex()).orElse(null);
-                    if(c.tyoe == CardType.King){
+                    if(c.tyoe.equals(CardType.King)) {
                         discard.add(p.getHandPosition());
+                        Queen queen = queenCollection.removeQueen(p).orElse(null);
+                        Position newPosition = new Position(p.getHandPosition(), new AwokenQueenPosition(playerState.awokenQueens.size(), playerIdx));
+                        this.awokenQueens.addQueen(newPosition, queen);
+                        queenCollection.addQueen(queen, newPosition);
+                        playerState.awokenQueens.put(newPosition.getAwokenCardIndex(), queen);
                     }
-                    Queen queen = queenCollection.removeQueen(p).orElse(null);
-                    Position newPosition = new Position(p.getHandPosition(), new AwokenQueenPosition(playerState.awokenQueens.size(), playerIdx));
-                    this.awokenQueens.addQueen(newPosition, queen);
-                    queenCollection.addQueen(queen, newPosition);
-                    playerState.awokenQueens.put(newPosition.getAwokenCardIndex(), queen);
                 }
             }
-            if(p.isHand() && p.isAwokenQueen()){
+            else if(p.isHand() && p.isAwokenQueen()){
                 if(p.getHandPlayerIndex() == playerIdx && playerState.cards.get(p.getHandCardIndex()).isPresent()){
                     CardType type = playerState.cards.get(p.getHandCardIndex()).orElse(null).tyoe;
                     EvaluateAttack attack =  new EvaluateAttack(type, game.getPlayer(p.getAwokenQueenPlayerIndex()), this);
@@ -63,6 +62,7 @@ public class Player {
                         discard.add(p.getHandPosition());
                     }
                     else {
+                        discard.add(p.getHandPosition());
                         if(type == CardType.Knight) {
                             game.getPlayer(p.getAwokenQueenPlayerIndex()).getPlayerState().awokenQueens.remove(p.getAwokenCardIndex());
                             Queen queen = queenCollection.removeQueen(p).orElse(null);
@@ -81,11 +81,9 @@ public class Player {
                     }
                 }
             }
-            else if(p.isHand() && p.getHandPlayerIndex() == playerIdx && playerState.cards.get(p.getHandPlayerIndex()).isPresent()){
+            else if(p.isHand() && p.getHandPlayerIndex() == playerIdx && playerState.cards.get(p.getHandCardIndex()).isPresent()){
                 Card c = playerState.cards.get(p.getHandCardIndex()).orElse(null);
-                if(c.tyoe == CardType.Number){
-                    numberedCardsAndPosition.put(p.getHandPosition(), c);
-                }
+                numberedCardsAndPosition.put(p.getHandPosition(), c);
             }
         }
         boolean canDiscard = new EvaluateNumberedCards().play(new LinkedList<>(numberedCardsAndPosition.values()));

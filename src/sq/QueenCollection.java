@@ -9,6 +9,7 @@ public class QueenCollection {
 
     public QueenCollection(SleepingQueens sleepingQueens){
         allQueens = new HashMap<>(sleepingQueens.getQueens());
+        this.sleepingQueens = sleepingQueens;
     }
 
     public void addQueen(Queen queen, Position position){
@@ -16,14 +17,18 @@ public class QueenCollection {
             position = sleepingQueens.addQueen(queen);
 
         }
+        else {
+            position = new Position(position.getAwokenQueenPosition());
+        }
         allQueens.put(position, queen);
     }
 
     public Optional<Queen> removeQueen(Position queenPosition){
         if(queenPosition.isSleepingQueen()){
-            sleepingQueens.removeQueen(queenPosition);
+            sleepingQueens.removeQueen(new Position(queenPosition.getSleepingQueenPosition()));
+            return Optional.of(allQueens.remove(new Position(queenPosition.getSleepingQueenPosition())));
         }
-        return Optional.of(allQueens.remove(queenPosition));
+        return Optional.of(allQueens.remove(new Position(queenPosition.getAwokenQueenPosition())));
     }
 
     public Map<Position, Queen> getQueens(){

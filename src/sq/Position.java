@@ -1,5 +1,6 @@
 package sq;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class Position {
@@ -9,24 +10,32 @@ public class Position {
 
     public Position(HandPosition position){
         handPosition = Optional.of(position);
+        this.sleepingQueenPosition = Optional.empty();
+        this.awokenQueenPosition = Optional.empty();
     }
 
     public Position(AwokenQueenPosition position){
         awokenQueenPosition = Optional.of(position);
+        this.sleepingQueenPosition = Optional.empty();
+        this.handPosition = Optional.empty();
     }
 
     public Position(SleepingQueenPosition position){
         sleepingQueenPosition = Optional.of(position);
+        this.handPosition = Optional.empty();
+        this.awokenQueenPosition = Optional.empty();
     }
 
     public Position(HandPosition hand, SleepingQueenPosition queen){
         this.handPosition = Optional.of(hand);
         this.sleepingQueenPosition = Optional.of(queen);
+        this.awokenQueenPosition = Optional.empty();
     }
 
     public Position(HandPosition hand, AwokenQueenPosition queen){
         this.handPosition = Optional.of(hand);
         this.awokenQueenPosition = Optional.of(queen);
+        this.sleepingQueenPosition = Optional.empty();
     }
 
     public HandPosition getHandPosition(){
@@ -87,6 +96,47 @@ public class Position {
 
     public boolean isSleepingQueen(){
         return sleepingQueenPosition.isPresent();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()){
+            return false;
+        }
+
+        if(this.isHand() && !this.getHandPosition().equals(((Position) o).getHandPosition())){
+            return false;
+        }
+
+        if(this.isSleepingQueen() && !this.getSleepingQueenPosition().equals(((Position) o).getSleepingQueenPosition())){
+            return false;
+        }
+
+        if(this.isAwokenQueen() && !this.getAwokenQueenPosition().equals(((Position) o).getAwokenQueenPosition())){
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(handPosition.hashCode(), awokenQueenPosition.hashCode(), sleepingQueenPosition.hashCode());
+    }
+
+    @Override
+    public String toString(){
+        String result = "";
+        if(handPosition.isPresent()){
+            result += "h" + handPosition.get().getPlayerIndex() + "" + handPosition.get().getCardIndex();
+        }
+        if(sleepingQueenPosition.isPresent()){
+            result += "s" + sleepingQueenPosition.get().getCardIndex();
+        }
+        if(awokenQueenPosition.isPresent()){
+            result += "a" + awokenQueenPosition.get().getCardIndex();
+        }
+        return result;
     }
 
 }

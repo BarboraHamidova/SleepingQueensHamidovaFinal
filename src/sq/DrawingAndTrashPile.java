@@ -42,6 +42,7 @@ public class DrawingAndTrashPile {
         this.variant = variant;
         this.cardsPerPlayer = cardsPerPlayer;
         this.drawPile = new LinkedList<>();
+        this.thisTurnDiscard = new ArrayList();
         for (int i = 0; i < 8; i++){
             drawPile.add(new Card(CardType.King, 0));
         }
@@ -61,6 +62,15 @@ public class DrawingAndTrashPile {
         drawPile = shuffle(drawPile);
         discardPile = new LinkedList<>();
 
+    }
+
+    //Cisto kvoli testom
+    public DrawingAndTrashPile(Integer cardsPerPlayer, Integer variant, LinkedList<Card> customPile){
+        this.variant = variant;
+        this.cardsPerPlayer = cardsPerPlayer;
+        this.drawPile = new LinkedList<>(customPile);
+        this.thisTurnDiscard = new ArrayList();
+        discardPile = new LinkedList<>();
     }
 
     public List<Card> initialDraw(){
